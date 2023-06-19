@@ -1,9 +1,10 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
+user=process.env.mongoURI
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.mongoURI, {
+    await mongoose.connect(`mongodb+srv://${user}@cluster0.dwnwv8t.mongodb.net/Book-store`, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
