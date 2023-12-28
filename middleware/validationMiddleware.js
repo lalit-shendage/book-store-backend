@@ -1,7 +1,10 @@
 const jwt = require('jsonwebtoken');
 require("dotenv").config();
 
-const JWT_SECRET="Ghost"
+
+
+secret=process.env.JWT_SECRET
+
 const verifyToken = async (req, res, next) => {
   const token = req.header("auth-token");
 
@@ -10,7 +13,7 @@ const verifyToken = async (req, res, next) => {
   }
 
   try {
-    const decoded = await jwt.verify(token, JWT_SECRET);
+    const decoded = await jwt.verify(token, secret);
     req.user = decoded;
     next();
   } catch (error) {

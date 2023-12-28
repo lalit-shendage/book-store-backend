@@ -1,12 +1,12 @@
 // index.js
 const cors = require('cors');
 const express = require('express');
-const app = express();
 const bodyParser = require('body-parser');
 const userRoutes = require('./routes/userRoutes');
 const booksRoutes = require('./routes/booksRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const database = require('./config/database');
+const app = express();
 
 database();
 

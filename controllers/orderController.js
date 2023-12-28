@@ -1,6 +1,8 @@
 const User = require('../models/User');
 const Book = require('../models/Book');
 const Order = require('../models/Order');
+const mongoose = require('mongoose');
+
 
 const checkout = async (req, res) => {
   try {
@@ -48,7 +50,6 @@ const checkout = async (req, res) => {
   }
 };
 
-const mongoose = require('mongoose');
 
 const fetchOrders = async (req, res) => {
   try {
@@ -68,4 +69,33 @@ const fetchOrders = async (req, res) => {
 };
 
 
-module.exports = { checkout, fetchOrders };
+
+const removeOrder = async (req, res) => {
+  const orderId = req.params.orderId;
+
+  try {
+    // Check if the order with the given ID exists
+    const order = await Order.findById(orderId);
+
+    if (!order) {
+      return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+
+    // Check if the user making the request is the owner of the order
+    if (order.userId !== req.user.id) {
+      return res.status(403).json({ success: false, message: 'Unauthorized to remove this order' });
+    }
+
+    // Implement logic to remove the order
+    await Order.findByIdAndRemove(orderId);
+
+    // Send a success response
+    res.status(200).json({ success: true, message: 'Order removed successfully' });
+  } catch (error) {
+    // Handle errors and send an error response
+    console.error('Error removing order:', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+};
+
+module.exports = { checkout, fetchOrders,removeOrder };
