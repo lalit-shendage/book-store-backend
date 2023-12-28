@@ -19,7 +19,7 @@ const register = async (req, res) => {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    console.log(hashedPassword)
+   
     // Create a new User
     const newUser = new User({
       email,
@@ -40,7 +40,7 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     // Retrieve the login data from the request body
-    console.log(req.body)
+   
     const { email, password } = req.body;
 
 
@@ -57,7 +57,7 @@ const login = async (req, res) => {
   
     const hashedPassword = await bcrypt.hash(password, 10);
    
-    console.log(hashedPassword)
+   
 
     if (!isPasswordValid) {
       return res.status(401).json({ message: 'Invalid  password' });
