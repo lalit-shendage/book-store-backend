@@ -40,27 +40,20 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     // Retrieve the login data from the request body
-   
     const { email, password } = req.body;
-
 
     // Check if the user exists
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(401).json({ message: 'Invalid email ' });
+      return res.status(401).json({ message: 'Invalid email' });
     }
 
     // Compare the password
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    
-  
-    const hashedPassword = await bcrypt.hash(password, 10);
-   
-   
 
     if (!isPasswordValid) {
-      return res.status(401).json({ message: 'Invalid  password' });
+      return res.status(401).json({ message: 'Invalid password' });
     }
 
     // Create and sign a JWT token
@@ -68,9 +61,10 @@ const login = async (req, res) => {
 
     res.status(200).json({ token, user });
   } catch (error) {
-    res.status(500).json({ message: 'Login failed' });
+    res.status(500).json({ message: 'Login failed', error });
   }
 };
+
 
 
 const getUserInfo = async (req, res) => {
