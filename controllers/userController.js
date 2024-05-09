@@ -28,6 +28,8 @@ const register = async (req, res) => {
       address: null,
     });
 
+    console.log(newUser);
+
     // Save the User to the database
     await newUser.save();
 
